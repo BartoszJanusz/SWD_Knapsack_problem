@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include "Data.h"
+#include "DynamicProgrammingSolver.h"
 
 
 using std::string;
@@ -18,10 +19,13 @@ void readFromFile(string path, Data &data) {
 	{
 		cout << "Success in access to file." << endl;
 		auto file_iterator = std::istream_iterator<int>(file);
-		data.knapsack_size = *file_iterator++;
+		data.knapsack_size = *(file_iterator++);
 		while (file_iterator != std::istream_iterator<int>())
 		{
-			data.items.push_back(std::pair<int, int>(*file_iterator++, *file_iterator++));
+			std::pair<int, int> line;
+			line.first = *(file_iterator++);
+			line.second = *(file_iterator++);
+			data.items.push_back(line);
 		}
 	}
 	else cout << "Error in access to file!" << endl;
@@ -38,6 +42,14 @@ int main() {
 	for(auto item : data.items)
 		cout << item.first<<" " <<item.second << endl;
 
+	DynamicProgrammingSolver solver(data);
+
+	auto result = solver.solve();
+
+	cout << endl << "Items in knapsack value:  " << result.first << endl;
+	cout << "Items count: " << endl;
+	for (int i = 0; i < result.second.size(); i++)
+		cout << "Category: " << i << "  Count: " << result.second[i] << endl;
 
 	system("pause");
 }

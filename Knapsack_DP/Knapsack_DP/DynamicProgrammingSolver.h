@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <algorithm>
 #include "Data.h"
 
 class DynamicProgrammingSolver
@@ -7,10 +8,12 @@ class DynamicProgrammingSolver
 private:
 	int knapsackSize;
 	std::vector<std::pair<int, int>> items;
-	std::vector<int> items_count;
+	//std::vector<int> items_count;
+	std::pair<int, std::vector<int>> calculateValue(int kSize);
 public:
 	DynamicProgrammingSolver();
 	DynamicProgrammingSolver(Data& data);
-	~DynamicProgrammingSolver();
+	
+	std::pair<int, std::vector<int>> solve();
 };
 

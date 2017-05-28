@@ -10,12 +10,45 @@ DynamicProgrammingSolver::DynamicProgrammingSolver(Data& data)
 {
 	this->knapsackSize = data.knapsack_size;
 	this->items = data.items;
-	this->items_count.resize(items.size());
+	//this->items_count.resize(items.size());
 
-	std::fill(items_count.begin(), items_count.end(), 0);
+	//std::fill(items_count.begin(), items_count.end(), 0);
 }
 
-
-DynamicProgrammingSolver::~DynamicProgrammingSolver()
+std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kSize)
 {
+	std::vector<int> items_count(items.size(), 0);
+	int max_value = -1;
+	int max_index = -1;
+
+	if (kSize == 0)
+		return std::pair<int, std::vector<int>>(0, items_count);
+	else {
+		for (int i = 0; i < items.size(); ++i) {
+			if (items[i].first <= kSize) {
+				auto res = calculateValue(kSize - items[i].first);
+				int value = items[i].second + res.first;
+
+				if (value > max_value)
+				{
+					max_value = value;
+					max_index = i;
+					items_count = res.second;
+				}
+			}
+		}
+
+		if (max_value == -1)
+			return std::pair<int, std::vector<int>>(0, items_count);
+
+		items_count[max_index] += 1;
+
+		return std::pair<int, std::vector<int>>(max_value, items_count);
+	}
+}
+
+std::pair<int, std::vector<int>> DynamicProgrammingSolver::solve()
+{
+
+	return calculateValue(knapsackSize);
 }
