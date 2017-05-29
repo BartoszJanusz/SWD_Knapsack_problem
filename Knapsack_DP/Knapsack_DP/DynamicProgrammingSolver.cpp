@@ -25,7 +25,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 	int max_index = -1;
 
 	if (kSize == 0)
-		return std::pair<int, std::vector<int>>(0, items_count);
+		return std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
 	else {
 		for (int i = 0; i < items.size(); ++i) {
 			if (items[i].first <= kSize) {
@@ -42,7 +42,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 		}
 
 		if (max_value == -1)
-			return std::pair<int, std::vector<int>>(0, items_count);
+			return std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
 
 		items_count[max_index] += 1;
 
