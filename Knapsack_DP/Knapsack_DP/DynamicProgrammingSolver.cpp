@@ -20,7 +20,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 {
 	recursiveCallsCounter++;
 
-	std::vector<int> items_count(items.size(), 0);
+	std::vector<int> items_count;
 	int max_value = -1;
 	int max_index = -1;
 
