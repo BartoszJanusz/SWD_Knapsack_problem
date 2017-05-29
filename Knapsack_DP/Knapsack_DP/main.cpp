@@ -54,9 +54,12 @@ int main() {
 	cout << "Items count: " << endl;
 	for (int i = 0; i < result.second.size(); i++)
 		cout << "Category: " << i << "  Count: " << result.second[i] << endl;
+	
+	cout << "Number of calls to calculateValue: " << solver.getRecursiveCalls() << endl;
 	cout << "Elapsed time: " << timer.getTime(SECONDS) << " s" << endl;
 	cout << "Elapsed time: " << timer.getTime(MILISECONDS)<< " ms" << endl;
 	cout << "Elapsed time: " << timer.getTime(MICROSECONDS) << " us" << endl;
+
 
 	system("pause");
 }

@@ -4,6 +4,7 @@
 
 DynamicProgrammingSolver::DynamicProgrammingSolver()
 {
+	recursiveCallsCounter = 0;
 }
 
 DynamicProgrammingSolver::DynamicProgrammingSolver(Data& data)
@@ -17,6 +18,8 @@ DynamicProgrammingSolver::DynamicProgrammingSolver(Data& data)
 
 std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kSize)
 {
+	recursiveCallsCounter++;
+
 	std::vector<int> items_count(items.size(), 0);
 	int max_value = -1;
 	int max_index = -1;
@@ -49,6 +52,11 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 
 std::pair<int, std::vector<int>> DynamicProgrammingSolver::solve()
 {
-
+	recursiveCallsCounter = 0;
 	return calculateValue(knapsackSize);
+}
+
+unsigned DynamicProgrammingSolver::getRecursiveCalls()
+{
+	return recursiveCallsCounter;
 }
