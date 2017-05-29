@@ -113,6 +113,7 @@
   <ItemGroup>
     <ClCompile Include="DynamicProgrammingSolver.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="data.txt" />
@@ -120,6 +121,7 @@
   <ItemGroup>
     <ClInclude Include="Data.h" />
     <ClInclude Include="DynamicProgrammingSolver.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
