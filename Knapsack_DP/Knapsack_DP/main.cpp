@@ -51,5 +51,5 @@ int main() {
 	for (int i = 0; i < result.second.size(); i++)
 		cout << "Category: " << i << "  Count: " << result.second[i] << endl;
 
-	system("pause");
+	//system("pause");
 }

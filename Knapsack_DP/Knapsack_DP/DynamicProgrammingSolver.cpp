@@ -17,12 +17,12 @@ DynamicProgrammingSolver::DynamicProgrammingSolver(Data& data)
 
 std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kSize)
 {
-	std::vector<int> items_count(items.size(), 0);
+	std::vector<int> items_count;
 	int max_value = -1;
 	int max_index = -1;
 
 	if (kSize == 0)
-		return std::pair<int, std::vector<int>>(0, items_count);
+		return std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
 	else {
 		for (int i = 0; i < items.size(); ++i) {
 			if (items[i].first <= kSize) {
@@ -33,17 +33,17 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 				{
 					max_value = value;
 					max_index = i;
-					items_count = res.second;
+					items_count = std::move(res.second);
 				}
 			}
 		}
 
 		if (max_value == -1)
-			return std::pair<int, std::vector<int>>(0, items_count);
+			return std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
 
 		items_count[max_index] += 1;
 
-		return std::pair<int, std::vector<int>>(max_value, items_count);
+		return std::pair<int, std::vector<int>>(max_value, std::move(items_count));
 	}
 }
 
