@@ -5,6 +5,7 @@
 #include <vector>
 #include "Data.h"
 #include "DynamicProgrammingSolver.h"
+#include "GreedyAlgorithmSolver.h"
 #include "Timer.h"
 
 
@@ -24,12 +25,17 @@ void readFromFile(string path, Data &data) {
 		while (file_iterator != std::istream_iterator<int>())
 		{
 			std::pair<int, int> line;
+			// Read weight
 			line.first = *(file_iterator++);
+			// Read value
 			line.second = *(file_iterator++);
 			data.items.push_back(line);
 		}
 	}
-	else cout << "Error in access to file!" << endl;
+	else
+	{
+		cout << "Error in access to file!" << endl;
+	}
 }
 
 int main() {
@@ -38,28 +44,49 @@ int main() {
 
 	readFromFile("data.txt", data);
 
-	cout << data.knapsack_size << endl;
+	cout << "Knapsack size: " << data.knapsack_size << "\nItems:" << endl;
 	
-	for(auto item : data.items)
-		cout << item.first<<" " <<item.second << endl;
+	
 
-	DynamicProgrammingSolver solver(data);
-
+	// Dynamic programming
+	cout << "========== DYNAMIC PROGRAMMING ==========" << endl;
+	DynamicProgrammingSolver dynamicSolver(data);
 	Timer timer;
 	timer.start();
-	auto result = solver.solve();
-	timer.stop(SECONDS);
+	auto dynamicResult = dynamicSolver.solve();
+	timer.stop();
 
-	cout << endl << "Items in knapsack value:  " << result.first << endl;
+	for (auto item : dynamicSolver.getItems())
+		cout << "w: " << item.first << " v: " << item.second << endl;
+
+	cout << endl << "Items in knapsack value:  " << dynamicResult.first << endl;
 	cout << "Items count: " << endl;
-	for (int i = 0; i < result.second.size(); i++)
-		cout << "Category: " << i << "  Count: " << result.second[i] << endl;
+	for (int i = 0; i < dynamicResult.second.size(); i++)
+		cout << "Category: " << i << "  Count: " << dynamicResult.second[i] << endl;
 	
-	cout << "Number of calls to calculateValue: " << solver.getRecursiveCalls() << endl;
+	cout << "Number of calls to calculateValue: " << dynamicSolver.getRecursiveCalls() << endl;
 	cout << "Elapsed time: " << timer.getTime(SECONDS) << " s" << endl;
 	cout << "Elapsed time: " << timer.getTime(MILISECONDS)<< " ms" << endl;
 	cout << "Elapsed time: " << timer.getTime(MICROSECONDS) << " us" << endl;
 
+	// Greedy algorithm
+	cout << "\n========== GREEDY ALGORITHM ==========" << endl;
+	GreedyAlgorithmSolver greedySolver(data);
+	timer.start();
+	auto greedyResult = greedySolver.solve();
+	timer.stop();
+
+	for (auto item : dynamicSolver.getItems())
+		cout << "w: " << item.first << " v: " << item.second << endl;
+
+	cout << endl << "Items in knapsack value:  " << greedyResult.first << endl;
+	cout << "Items count: " << endl;
+	for (int i = 0; i < greedyResult.second.size(); i++)
+		cout << "Category: " << i << "  Count: " << greedyResult.second[i] << endl;
+
+	cout << "Elapsed time: " << timer.getTime(SECONDS) << " s" << endl;
+	cout << "Elapsed time: " << timer.getTime(MILISECONDS) << " ms" << endl;
+	cout << "Elapsed time: " << timer.getTime(MICROSECONDS) << " us" << endl;
 
 	system("pause");
 }
