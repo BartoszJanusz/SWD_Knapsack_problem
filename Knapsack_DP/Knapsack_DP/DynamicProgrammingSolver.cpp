@@ -22,7 +22,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 	if (kSize == 0)
 	{
 		auto retVal = std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
-#ifndef DEBUG
+#ifdef _DEBUG
 		Logger::getLogger().log("return kSize == 0", retVal);
 #endif // DEBUG
 		return retVal;
@@ -52,7 +52,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 		if (max_value == -1)
 		{
 			auto retVal = std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
-#ifndef DEBUG
+#ifdef _DEBUG
 			std::stringstream ss;
 			ss << "return kSize == " << kSize;
 			Logger::getLogger().log(ss.str(), retVal);
@@ -63,7 +63,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 		items_count[max_index] += 1;
 
 		auto retVal = std::pair<int, std::vector<int>>(max_value, std::move(items_count));
-#ifndef DEBUG
+#ifdef _DEBUG
 		std::stringstream ss;
 		ss << "return kSize == " << kSize;
 		Logger::getLogger().log(ss.str(), retVal);

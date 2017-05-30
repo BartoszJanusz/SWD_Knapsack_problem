@@ -23,7 +23,7 @@ std::pair<int, std::vector<int>> GreedyAlgorithmSolver::solve()
 		return (static_cast<double>(lhs.second) / static_cast<double>(lhs.first)) > (static_cast<double>(rhs.second) / static_cast<double>(rhs.first));
 	});
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	for (auto &i : items)
 	{
 		std::cout
