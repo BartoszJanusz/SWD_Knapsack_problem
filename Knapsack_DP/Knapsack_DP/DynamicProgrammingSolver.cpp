@@ -2,17 +2,17 @@
 
 DynamicProgrammingSolver::DynamicProgrammingSolver() : Solver()
 {
-	recursiveCallsCounter = 0;
+	calculateValueCalls = 0;
 }
 
 DynamicProgrammingSolver::DynamicProgrammingSolver(const Data& data) : Solver(data)
 {
-	recursiveCallsCounter = 0;
+	calculateValueCalls = 0;
 }
 
 std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kSize)
 {
-	recursiveCallsCounter++;
+	calculateValueCalls++;
 
 	std::vector<int> items_count;
 	int max_value = -1;
@@ -21,7 +21,11 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 	// When passed kSize is 0, return vector filled with zeros
 	if (kSize == 0)
 	{
-		return std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
+		auto retVal = std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
+#ifndef DEBUG
+		Logger::getLogger().log("return kSize == 0", retVal);
+#endif // DEBUG
+		return retVal;
 	}
 	else
 	{
@@ -46,21 +50,35 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 
 		// When none of items fit in knapsack, return vector filled with zeros
 		if (max_value == -1)
-			return std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
+		{
+			auto retVal = std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
+#ifndef DEBUG
+			std::stringstream ss;
+			ss << "return kSize == " << kSize;
+			Logger::getLogger().log(ss.str(), retVal);
+#endif // DEBUG
+			return retVal;
+		}
 
 		items_count[max_index] += 1;
 
-		return std::pair<int, std::vector<int>>(max_value, std::move(items_count));
+		auto retVal = std::pair<int, std::vector<int>>(max_value, std::move(items_count));
+#ifndef DEBUG
+		std::stringstream ss;
+		ss << "return kSize == " << kSize;
+		Logger::getLogger().log(ss.str(), retVal);
+#endif // DEBUG
+		return retVal;
 	}
 }
 
 std::pair<int, std::vector<int>> DynamicProgrammingSolver::solve()
 {
-	recursiveCallsCounter = 0;
+	calculateValueCalls = 0;
 	return calculateValue(knapsackSize);
 }
 
-unsigned DynamicProgrammingSolver::getRecursiveCalls()
+unsigned DynamicProgrammingSolver::getCalculateValueCalls()
 {
-	return recursiveCallsCounter;
+	return calculateValueCalls;
 }

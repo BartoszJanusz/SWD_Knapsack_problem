@@ -29,7 +29,7 @@ double Timer::getTime(Resolution resolution)
 	elapsedMicroseconds.QuadPart *= 1000000;
 	elapsedMicroseconds.QuadPart /= frequency.QuadPart;
 
-	double retVal = elapsedMicroseconds.QuadPart;
+	double retVal = (double)elapsedMicroseconds.QuadPart;
 	switch (resolution)
 	{
 		case MICROSECONDS:

@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include "Solver.h"
+#include "Logger.h"
 
 class DynamicProgrammingSolver : public Solver
 {
@@ -10,13 +11,14 @@ public:
 	DynamicProgrammingSolver(const Data& data);
 	~DynamicProgrammingSolver() = default;
 
-	unsigned getRecursiveCalls();
+	unsigned getCalculateValueCalls();
 
 	virtual std::pair<int, std::vector<int>> solve() override;
 private:
 	std::pair<int, std::vector<int>> calculateValue(int kSize);
 	
-	unsigned recursiveCallsCounter;
+	unsigned calculateValueCalls;
+	unsigned kSizeZeroReturns;
 
 };
 

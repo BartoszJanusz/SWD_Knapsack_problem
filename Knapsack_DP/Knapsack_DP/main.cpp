@@ -66,7 +66,7 @@ int main()
 	for (int i = 0; i < dynamicResult.second.size(); i++)
 		cout << "Category: " << i << "  Count: " << dynamicResult.second[i] << endl;
 
-	cout << endl << "Number of calls to calculateValue: " << dynamicSolver.getRecursiveCalls() << endl;
+	cout << endl << "Number of calls to calculateValue: " << dynamicSolver.getCalculateValueCalls() << endl;
 	printf("Elapsed time: %3.3f s\n", timer.getTime(SECONDS));
 	printf("Elapsed time: %3.3f ms\n", timer.getTime(MILISECONDS));
 	printf("Elapsed time: %3.3f us\n", timer.getTime(MICROSECONDS));
