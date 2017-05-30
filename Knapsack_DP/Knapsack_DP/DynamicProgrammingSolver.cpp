@@ -14,6 +14,10 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 {
 	calculateValueCalls++;
 
+	auto element = previousValuesMap.find(kSize);
+	if (element != previousValuesMap.end())
+		return element->second;
+
 	std::vector<int> items_count;
 	int max_value = -1;
 	int max_index = -1;
@@ -22,6 +26,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 	if (kSize == 0)
 	{
 		auto retVal = std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
+		previousValuesMap.insert(std::make_pair(kSize, retVal));
 #ifdef _DEBUG
 		Logger::getLogger().log("return kSize == 0", retVal);
 #endif // DEBUG
@@ -52,6 +57,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 		if (max_value == -1)
 		{
 			auto retVal = std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
+			previousValuesMap.insert(std::make_pair(kSize, retVal));
 #ifdef _DEBUG
 			std::stringstream ss;
 			ss << "return kSize == " << kSize;
@@ -63,6 +69,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 		items_count[max_index] += 1;
 
 		auto retVal = std::pair<int, std::vector<int>>(max_value, std::move(items_count));
+		previousValuesMap.insert(std::make_pair(kSize, retVal));
 #ifdef _DEBUG
 		std::stringstream ss;
 		ss << "return kSize == " << kSize;
