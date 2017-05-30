@@ -12,6 +12,8 @@ public:
 	virtual ~Solver() = default;
 	virtual std::pair<int, std::vector<int>> solve() = 0;
 	const std::vector<std::pair<int, int>> getItems() const;
+	
+	unsigned getItemsWeight(std::pair<int, std::vector<int>> result) const;
 
 protected:
 	int knapsackSize;

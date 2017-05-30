@@ -14,7 +14,8 @@ using std::cout;
 using std::endl;
 
 
-void readFromFile(string path, Data &data) {
+void readFromFile(string path, Data &data)
+{
 	std::fstream file;
 	file.open(path, std::ios::in);
 	if (file.good() == true)
@@ -38,15 +39,12 @@ void readFromFile(string path, Data &data) {
 	}
 }
 
-int main() {
+int main()
+{
 
 	Data data;
-
 	readFromFile("data.txt", data);
-
 	cout << "Knapsack size: " << data.knapsack_size << "\nItems:" << endl;
-	
-	
 
 	// Dynamic programming
 	cout << "========== DYNAMIC PROGRAMMING ==========" << endl;
@@ -57,17 +55,21 @@ int main() {
 	timer.stop();
 
 	for (auto item : dynamicSolver.getItems())
-		cout << "w: " << item.first << " v: " << item.second << endl;
+	{
+		auto ratio = static_cast<double>(item.second) / static_cast<double>(item.first);
+		printf("w: %3d v: %3d v/w: %3.2f\n", item.first, item.second, ratio);
+	}
 
 	cout << endl << "Items in knapsack value:  " << dynamicResult.first << endl;
-	cout << "Items count: " << endl;
+	cout << "Items in knapsack weight:  " << dynamicSolver.getItemsWeight(dynamicResult) << endl;
+	cout << endl << "Items count: " << endl;
 	for (int i = 0; i < dynamicResult.second.size(); i++)
 		cout << "Category: " << i << "  Count: " << dynamicResult.second[i] << endl;
-	
-	cout << "Number of calls to calculateValue: " << dynamicSolver.getRecursiveCalls() << endl;
-	cout << "Elapsed time: " << timer.getTime(SECONDS) << " s" << endl;
-	cout << "Elapsed time: " << timer.getTime(MILISECONDS)<< " ms" << endl;
-	cout << "Elapsed time: " << timer.getTime(MICROSECONDS) << " us" << endl;
+
+	cout << endl << "Number of calls to calculateValue: " << dynamicSolver.getRecursiveCalls() << endl;
+	printf("Elapsed time: %3.3f s\n", timer.getTime(SECONDS));
+	printf("Elapsed time: %3.3f ms\n", timer.getTime(MILISECONDS));
+	printf("Elapsed time: %3.3f us\n", timer.getTime(MICROSECONDS));
 
 	// Greedy algorithm
 	cout << "\n========== GREEDY ALGORITHM ==========" << endl;
@@ -76,17 +78,21 @@ int main() {
 	auto greedyResult = greedySolver.solve();
 	timer.stop();
 
-	for (auto item : dynamicSolver.getItems())
-		cout << "w: " << item.first << " v: " << item.second << endl;
+	for (auto item : greedySolver.getItems())
+	{
+		auto ratio = static_cast<double>(item.second) / static_cast<double>(item.first);
+		printf("w: %3d v: %3d v/w: %3.2f\n", item.first, item.second, ratio);
+	}
 
-	cout << endl << "Items in knapsack value:  " << greedyResult.first << endl;
-	cout << "Items count: " << endl;
+	cout << endl << "Items in knapsack value:   " << greedyResult.first << endl;
+	cout << "Items in knapsack weight:  " << greedySolver.getItemsWeight(greedyResult) << endl;
+	cout << endl << "Items count: " << endl;
 	for (int i = 0; i < greedyResult.second.size(); i++)
 		cout << "Category: " << i << "  Count: " << greedyResult.second[i] << endl;
 
-	cout << "Elapsed time: " << timer.getTime(SECONDS) << " s" << endl;
-	cout << "Elapsed time: " << timer.getTime(MILISECONDS) << " ms" << endl;
-	cout << "Elapsed time: " << timer.getTime(MICROSECONDS) << " us" << endl;
+	printf("\nElapsed time: %3.3f s\n", timer.getTime(SECONDS));
+	printf("Elapsed time: %3.3f ms\n", timer.getTime(MILISECONDS));
+	printf("Elapsed time: %3.3f us\n", timer.getTime(MICROSECONDS));
 
 	system("pause");
 }
