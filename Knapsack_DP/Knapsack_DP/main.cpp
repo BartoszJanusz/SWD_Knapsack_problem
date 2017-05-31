@@ -69,7 +69,7 @@ int main()
 	cout << endl << "Number of calls to calculateValue: " << dynamicSolver.getCalculateValueCalls() << endl;
 	printf("Elapsed time: %3.3f s\n", timer.getTime(SECONDS));
 	printf("Elapsed time: %3.3f ms\n", timer.getTime(MILISECONDS));
-	printf("Elapsed time: %3.3f us\n", timer.getTime(MICROSECONDS));
+	printf("Elapsed time: %3.0f us\n", timer.getTime(MICROSECONDS));
 
 	// Greedy algorithm
 	cout << "\n========== GREEDY ALGORITHM ==========" << endl;
@@ -92,7 +92,7 @@ int main()
 
 	printf("\nElapsed time: %3.3f s\n", timer.getTime(SECONDS));
 	printf("Elapsed time: %3.3f ms\n", timer.getTime(MILISECONDS));
-	printf("Elapsed time: %3.3f us\n", timer.getTime(MICROSECONDS));
+	printf("Elapsed time: %3.0f us\n", timer.getTime(MICROSECONDS));
 
 	system("pause");
 }

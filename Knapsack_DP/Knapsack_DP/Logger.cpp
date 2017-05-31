@@ -4,8 +4,20 @@ Logger Logger::logger;
 
 const Logger & Logger::getLogger()
 {
-	//if (logger == nullptr)
-	//	logger = new Logger();
+	if (!logger.logFile.is_open())
+	{
+		time_t rawtime;
+		struct tm timeinfo;
+		char buffer[80];
+
+		time(&rawtime);
+		localtime_s(&timeinfo, &rawtime);
+
+		strftime(buffer, sizeof(buffer), "%d-%m-%Y_%I.%M.%S.log", &timeinfo);
+		std::string str(buffer);
+		logger.logFile.open(str, std::ofstream::out);
+	}
+
 	return logger;
 }
 
@@ -28,18 +40,4 @@ void Logger::log(const std::string &text) const
 void Logger::log(const std::stringstream &ss) const
 {
 	this->log(ss.str());
-}
-
-Logger::Logger()
-{
-	time_t rawtime;
-	struct tm timeinfo;
-	char buffer[80];
-
-	time(&rawtime);
-	localtime_s(&timeinfo, &rawtime);
-
-	strftime(buffer, sizeof(buffer), "%d-%m-%Y_%I.%M.%S.log", &timeinfo);
-	std::string str(buffer);
-	logFile.open(str, std::ofstream::out);
 }

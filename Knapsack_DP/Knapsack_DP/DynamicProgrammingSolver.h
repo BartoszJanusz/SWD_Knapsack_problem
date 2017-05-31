@@ -5,6 +5,8 @@
 #include "Logger.h"
 #include <unordered_map>
 
+#define USE_MAP_OPTIMALIZATION
+
 class DynamicProgrammingSolver : public Solver
 {
 public:
