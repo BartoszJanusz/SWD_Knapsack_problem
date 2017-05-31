@@ -13,7 +13,7 @@ const Logger & Logger::getLogger()
 		time(&rawtime);
 		localtime_s(&timeinfo, &rawtime);
 
-		strftime(buffer, sizeof(buffer), "%d-%m-%Y_%I.%M.%S.log", &timeinfo);
+		strftime(buffer, sizeof(buffer), "%d-%m-%Y_%H.%M.%S.log", &timeinfo);
 		std::string str(buffer);
 		logger.logFile.open(str, std::ofstream::out);
 	}
