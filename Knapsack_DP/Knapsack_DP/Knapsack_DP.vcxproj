@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Data.cpp" />
     <ClCompile Include="DynamicProgrammingSolver.cpp" />
     <ClCompile Include="GreedyAlgorithmSolver.cpp" />
     <ClCompile Include="Logger.cpp" />

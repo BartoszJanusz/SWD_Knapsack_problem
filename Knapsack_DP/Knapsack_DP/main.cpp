@@ -1,7 +1,6 @@
 #include <iterator>
 #include <string>
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include "Data.h"
 #include "DynamicProgrammingSolver.h"
@@ -14,37 +13,13 @@ using std::cout;
 using std::endl;
 
 
-void readFromFile(string path, Data &data)
-{
-	std::fstream file;
-	file.open(path, std::ios::in);
-	if (file.good() == true)
-	{
-		cout << "Success in access to file." << endl;
-		auto file_iterator = std::istream_iterator<int>(file);
-		data.knapsack_size = *(file_iterator++);
-		while (file_iterator != std::istream_iterator<int>())
-		{
-			std::pair<int, int> line;
-			// Read weight
-			line.first = *(file_iterator++);
-			// Read value
-			line.second = *(file_iterator++);
-			data.items.push_back(line);
-		}
-	}
-	else
-	{
-		cout << "Error in access to file!" << endl;
-	}
-}
-
 int main()
 {
-
 	Data data;
-	readFromFile("data.txt", data);
-	cout << "Knapsack size: " << data.knapsack_size << "\nItems:" << endl;
+	//data.readFromFile("data.txt");
+	data.generateKnapsackSize(std::make_pair(80, 150));
+	data.generateItems(std::make_pair(15, 30), std::make_pair(30, 60), 30);
+	cout << "Knapsack size: " << data.getKnapsackSize() << "\nItems:" << endl;
 
 	// Dynamic programming
 	cout << "========== DYNAMIC PROGRAMMING ==========" << endl;
