@@ -27,13 +27,13 @@ int main()
 	solvers.push_back(&dynamicHashMap);
 
 	TestParameters tp;
-	tp.sizeRange = std::make_pair(80, 100);
+	tp.knapsackSizes = { 80, 90, 100 };
 	tp.costRange = std::make_pair(25, 30);
 	tp.valueRange = std::make_pair(30, 60);
 	tp.itemsToGenerate = 30;
 	tp.repeats = 100;
 	tp.solvers = std::move(solvers);
-	
+
 	Tester::test(tp, true);
 
 #ifdef ENABLE

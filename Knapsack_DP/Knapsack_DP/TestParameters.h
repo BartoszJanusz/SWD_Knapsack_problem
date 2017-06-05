@@ -9,9 +9,9 @@ public:
 	~TestParameters();
 
 	std::vector<Solver*> solvers;
+	std::vector<int> knapsackSizes;
 	Range costRange;
 	Range valueRange;
-	Range sizeRange;
 	uint itemsToGenerate;
 	uint repeats;
 

@@ -3,11 +3,16 @@
 void Tester::test(const TestParameters& tp, bool parallel)
 {
 	// Generating data for tests
-	std::vector<Data> data(tp.repeats);
-	for (auto& d : data)
+	std::vector<Data> data(tp.repeats * tp.knapsackSizes.size());
+	for (size_t i = 0; i < tp.repeats; i++)
 	{
-		d.generateKnapsackSize(tp.sizeRange);
+		Data d;
 		d.generateItems(tp.costRange, tp.valueRange, tp.itemsToGenerate);
+		for (size_t j = 0; j < tp.knapsackSizes.size(); j++)
+		{
+			data[j * tp.repeats + i].setKnapsackSize(tp.knapsackSizes[j]);
+			data[j * tp.repeats + i].setItems(d.getItems());
+		}
 	}
 
 	if (parallel)
