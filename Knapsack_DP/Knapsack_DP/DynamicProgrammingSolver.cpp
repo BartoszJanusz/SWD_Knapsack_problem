@@ -85,6 +85,5 @@ unsigned DynamicProgrammingSolver::getCalculateValueCalls()
 
 std::string DynamicProgrammingSolver::getName() const
 {
-	auto& ti = typeid(DynamicProgrammingSolver);
-	return ti.name();
+	return QUOTE(DynamicProgrammingSolver);
 }

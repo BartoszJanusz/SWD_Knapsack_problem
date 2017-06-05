@@ -5,6 +5,8 @@
 #include "Data.h"
 #include <typeinfo>
 
+#define QUOTE(x) #x
+
 class Solver
 {
 public:

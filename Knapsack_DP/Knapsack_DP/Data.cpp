@@ -59,8 +59,6 @@ void Data::generateItems(Range costRange, Range valueRange, uint itemsToGenerate
 	auto possibleToGenerate = (costRange.second - costRange.first) * (valueRange.second - valueRange.first);
 	generatedItems.reserve(possibleToGenerate);
 
-	printf("Items to generate: %u\nPossible items for given ranges: %u\n", itemsToGenerate, possibleToGenerate);
-
 	for (auto i = costRange.first; i < costRange.second; i++)
 	{
 		for (auto j = valueRange.first; j < valueRange.second; j++)

@@ -3,7 +3,7 @@
 void Tester::test(const TestParameters& tp, bool parallel)
 {
 	// Generating data for tests
-	std::vector<Data> data;
+	std::vector<Data> data(tp.repeats);
 	for (auto& d : data)
 	{
 		d.generateKnapsackSize(tp.sizeRange);
@@ -14,11 +14,13 @@ void Tester::test(const TestParameters& tp, bool parallel)
 	{
 		std::vector<std::thread> threads;
 		threads.reserve(tp.solvers.size());
-		
+
 		// Creating and starting testing threads
 		for (size_t i = 0; i < tp.solvers.size(); i++)
 		{
-			threads.emplace_back(performNTests, tp.solvers[i], data, tp.repeats, tp.additionalInfo);
+			std::stringstream ss;
+			ss << i;
+			threads.emplace_back(performNTests, tp.solvers[i], data, tp.repeats, ss.str());
 		}
 
 		// Waiting for threads
@@ -29,9 +31,11 @@ void Tester::test(const TestParameters& tp, bool parallel)
 	}
 	else
 	{
-		for (auto& s : tp.solvers)
+		for (size_t i = 0; i < tp.solvers.size(); i++)
 		{
-			performNTests(s, data, tp.repeats, tp.additionalInfo);
+			std::stringstream ss;
+			ss << i;
+			performNTests(tp.solvers[i], data, tp.repeats, ss.str());
 		}
 	}
 }
@@ -43,7 +47,7 @@ std::string Tester::constructFileName(const Solver & solver, const std::string a
 	auto knapsackSize = solver.getKnapsackSize();
 	auto itemCount = solver.getItems().size();
 	std::stringstream ss;
-	ss << className << "_" << knapsackSize << "-" << itemCount;
+	ss << "results_" << className << "_" << knapsackSize << "-" << itemCount;
 	if (!additionalInfo.empty())
 		ss << "_" << additionalInfo;
 	ss << ".txt";
@@ -52,10 +56,17 @@ std::string Tester::constructFileName(const Solver & solver, const std::string a
 
 void Tester::performNTests(Solver* solver, const std::vector<Data> &data, uint repeats, const std::string additionalInfo)
 {
-	for (auto& d : data)
+	std::cout << additionalInfo << ": start" << std::endl;
+	for (size_t i = 0; i < data.size(); i++)
 	{
+		auto percent = (i * 100 / data.size());
+		if ((percent % 10) == 0)
+		{
+			std::cout << additionalInfo << ": " << percent << std::endl;
+		}
+		
 		// Setting new set of data
-		solver->setData(d);
+		solver->setData(data[i]);
 
 		// Constructing file name
 		auto fileName = constructFileName(*solver, additionalInfo);
@@ -87,6 +98,6 @@ void Tester::performNTests(Solver* solver, const std::vector<Data> &data, uint r
 
 		ofs.flush();
 	}
-	
+	std::cout << additionalInfo << ": finish" << std::endl;
 }
 

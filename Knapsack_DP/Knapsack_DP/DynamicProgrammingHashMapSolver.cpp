@@ -10,8 +10,7 @@ DynamicProgrammingHashMapSolver::DynamicProgrammingHashMapSolver(const Data& dat
 
 std::string DynamicProgrammingHashMapSolver::getName() const
 {
-	auto& ti = typeid(DynamicProgrammingSolver);
-	return ti.name();
+	return QUOTE(DynamicProgrammingHashMapSolver);
 }
 
 std::pair<int, std::vector<int>> DynamicProgrammingHashMapSolver::calculateValue(int kSize)

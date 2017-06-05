@@ -23,19 +23,6 @@ std::pair<int, std::vector<int>> GreedyAlgorithmSolver::solve()
 		return (static_cast<double>(lhs.second) / static_cast<double>(lhs.first)) > (static_cast<double>(rhs.second) / static_cast<double>(rhs.first));
 	});
 
-#ifdef _DEBUG
-	for (auto &i : items)
-	{
-		std::cout
-			<< i.first
-			<< " "
-			<< i.second
-			<< " "
-			<< static_cast<double>(i.second) / static_cast<double>(i.first)
-			<< std::endl;
-	}
-#endif // DEBUG
-
 	auto freeSpace = knapsackSize;
 	auto itemChosen = false;
 
@@ -63,6 +50,5 @@ std::pair<int, std::vector<int>> GreedyAlgorithmSolver::solve()
 
 std::string GreedyAlgorithmSolver::getName() const
 {
-	auto& ti = typeid(GreedyAlgorithmSolver);
-	return ti.name();
+	return QUOTE(GreedyAlgorithmSolver);
 }

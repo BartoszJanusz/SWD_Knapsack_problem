@@ -3,9 +3,10 @@
 #include <iostream>
 #include <vector>
 #include "Data.h"
-#include "DynamicProgrammingSolver.h"
 #include "GreedyAlgorithmSolver.h"
-#include "Timer.h"
+#include "DynamicProgrammingSolver.h"
+#include "DynamicProgrammingHashMapSolver.h"
+#include "Tester.h"
 
 
 using std::string;
@@ -15,6 +16,27 @@ using std::endl;
 
 int main()
 {
+	GreedyAlgorithmSolver greedy;
+	DynamicProgrammingSolver dynamic;
+	DynamicProgrammingHashMapSolver dynamicHashMap;
+
+	std::vector<Solver*> solvers;
+
+	solvers.push_back(&greedy);
+	solvers.push_back(&dynamic);
+	solvers.push_back(&dynamicHashMap);
+
+	TestParameters tp;
+	tp.sizeRange = std::make_pair(80, 100);
+	tp.costRange = std::make_pair(25, 30);
+	tp.valueRange = std::make_pair(30, 60);
+	tp.itemsToGenerate = 30;
+	tp.repeats = 100;
+	tp.solvers = std::move(solvers);
+	
+	Tester::test(tp, true);
+
+#ifdef ENABLE
 	Data data;
 	//data.readFromFile("data.txt");
 	data.generateKnapsackSize(std::make_pair(80, 150));
@@ -70,6 +92,6 @@ int main()
 	printf("\nElapsed time: %3.3f s\n", timer.getTime(SECONDS));
 	printf("Elapsed time: %3.3f ms\n", timer.getTime(MILLISECONDS));
 	printf("Elapsed time: %3.0f us\n", timer.getTime(MICROSECONDS));
-
+#endif
 	system("pause");
 }
