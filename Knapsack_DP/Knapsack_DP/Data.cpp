@@ -37,7 +37,17 @@ void Data::setKnapsackSize(int knapsackSize)
 	this->knapsackSize = knapsackSize;
 }
 
-void Data::generateItems(std::pair<uint, uint> costRange, std::pair<uint, uint> valueRange, uint itemsToGenerate)
+void Data::generateItems(uint costMin, uint costMax, uint valueMin, uint valueMax, uint itemsToGenerate)
+{
+	generateItems(std::make_pair(costMin, costMax), std::make_pair(valueMin, valueMax), itemsToGenerate);
+}
+
+void Data::generateKnapsackSize(uint sizeMin, uint sizeMax)
+{
+	generateKnapsackSize(std::make_pair(sizeMin, sizeMax));
+}
+
+void Data::generateItems(Range costRange, Range valueRange, uint itemsToGenerate)
 {
 	if (costRange.first > costRange.second)
 		std::swap(costRange.first, costRange.second);
@@ -64,7 +74,7 @@ void Data::generateItems(std::pair<uint, uint> costRange, std::pair<uint, uint> 
 	items = std::vector<std::pair<int, int>>(generatedItems.begin(), generatedItems.begin() + itemsTaken);
 }
 
-void Data::generateKnapsackSize(std::pair<uint, uint> sizeRange)
+void Data::generateKnapsackSize(Range sizeRange)
 {
 	if (sizeRange.first > sizeRange.second)
 		std::swap(sizeRange.first, sizeRange.second);
@@ -97,6 +107,30 @@ bool Data::readFromFile(std::string path)
 			line.second = *(file_iterator++);
 			items.push_back(line);
 		}
+		return true;
+	}
+	else
+	{
+		std::cout << "Error in access to file!" << std::endl;
+		return true;
+	}
+}
+
+bool Data::writeToFile(std::string path)
+{
+	std::fstream file;
+	file.open(path, std::ios::out);
+	if (file.good() == true)
+	{
+		std::cout << "Success in access to file." << std::endl;
+		file << knapsackSize << "\n";
+
+		for (auto &item : items)
+		{
+			file << item.first << " " << item.second << "\n";
+		}
+
+		file.flush();
 		return true;
 	}
 	else

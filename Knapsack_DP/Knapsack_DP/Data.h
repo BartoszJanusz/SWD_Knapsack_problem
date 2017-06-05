@@ -7,6 +7,7 @@
 #include <iterator>
 
 typedef unsigned int uint;
+typedef std::pair<uint, uint> Range;
 
 class Data 
 {
@@ -24,10 +25,16 @@ public:
 	void setKnapsackSize(int knapsackSize);
 
 	// Random data generation
-	void generateItems(std::pair<uint, uint> costRange, std::pair<uint, uint> valueRange, uint itemsToGenerate);
-	void generateKnapsackSize(std::pair<uint, uint> sizeRange);
 
+	void generateItems(uint costMin, uint costMax, uint valueMin, uint valueMax, uint itemsToGenerate);
+	void generateKnapsackSize(uint sizeMin, uint sizeMax);
+
+	void generateItems(Range costRange, Range valueRange, uint itemsToGenerate);
+	void generateKnapsackSize(Range sizeRange);
+
+	// File manipulation
 	bool readFromFile(std::string path);
+	bool writeToFile(std::string path);
 
 private:
 	int knapsackSize;

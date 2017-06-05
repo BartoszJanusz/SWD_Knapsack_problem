@@ -18,8 +18,10 @@ int main()
 	Data data;
 	//data.readFromFile("data.txt");
 	data.generateKnapsackSize(std::make_pair(80, 150));
-	data.generateItems(std::make_pair(15, 30), std::make_pair(30, 60), 30);
+	data.generateItems(std::make_pair(30, 15), std::make_pair(30, 60), 30);
 	cout << "Knapsack size: " << data.getKnapsackSize() << "\nItems:" << endl;
+
+
 
 	// Dynamic programming
 	cout << "========== DYNAMIC PROGRAMMING ==========" << endl;
@@ -43,7 +45,7 @@ int main()
 
 	cout << endl << "Number of calls to calculateValue: " << dynamicSolver.getCalculateValueCalls() << endl;
 	printf("Elapsed time: %3.3f s\n", timer.getTime(SECONDS));
-	printf("Elapsed time: %3.3f ms\n", timer.getTime(MILISECONDS));
+	printf("Elapsed time: %3.3f ms\n", timer.getTime(MILLISECONDS));
 	printf("Elapsed time: %3.0f us\n", timer.getTime(MICROSECONDS));
 
 	// Greedy algorithm
@@ -66,7 +68,7 @@ int main()
 		cout << "Category: " << i << "  Count: " << greedyResult.second[i] << endl;
 
 	printf("\nElapsed time: %3.3f s\n", timer.getTime(SECONDS));
-	printf("Elapsed time: %3.3f ms\n", timer.getTime(MILISECONDS));
+	printf("Elapsed time: %3.3f ms\n", timer.getTime(MILLISECONDS));
 	printf("Elapsed time: %3.0f us\n", timer.getTime(MICROSECONDS));
 
 	system("pause");

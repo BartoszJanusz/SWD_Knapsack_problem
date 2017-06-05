@@ -60,3 +60,9 @@ std::pair<int, std::vector<int>> GreedyAlgorithmSolver::solve()
 
 	return retVal;
 }
+
+std::string GreedyAlgorithmSolver::getName() const
+{
+	auto& ti = typeid(GreedyAlgorithmSolver);
+	return ti.name();
+}

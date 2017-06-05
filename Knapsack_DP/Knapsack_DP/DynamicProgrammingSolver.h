@@ -5,25 +5,25 @@
 #include "Logger.h"
 #include <unordered_map>
 
-#define USE_MAP_OPTIMALIZATION
+//#define USE_MAP_OPTIMALIZATION
 
 class DynamicProgrammingSolver : public Solver
 {
 public:
+	// Constructors and destructors
 	DynamicProgrammingSolver();
 	DynamicProgrammingSolver(const Data& data);
-	~DynamicProgrammingSolver() = default;
+	virtual ~DynamicProgrammingSolver() = default;
 
+	// Getters
 	unsigned getCalculateValueCalls();
+	virtual std::string getName() const override;
 
 	virtual std::pair<int, std::vector<int>> solve() override;
-private:
-	std::pair<int, std::vector<int>> calculateValue(int kSize);
-	std::unordered_map<int, std::pair<int, std::vector<int>>> previousValuesMap;
 
+protected:
+	virtual std::pair<int, std::vector<int>> calculateValue(int kSize);
 
 	unsigned calculateValueCalls;
-	unsigned kSizeZeroReturns;
-
 };
 

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include "Data.h"
+#include <typeinfo>
 
 class Solver
 {
@@ -11,10 +12,16 @@ public:
 	Solver(const Data &data);
 	virtual ~Solver() = default;
 	virtual std::pair<int, std::vector<int>> solve() = 0;
-	const std::vector<std::pair<int, int>> getItems() const;
 	
+	// Getters
+	int getKnapsackSize() const;
+	const std::vector<std::pair<int, int>> getItems() const;
 	unsigned getItemsWeight(std::pair<int, std::vector<int>> result) const;
+	virtual std::string getName() const;
+	Data getData() const;
 
+	// Setters
+	void setData(const Data& data);
 protected:
 	int knapsackSize;
 	std::vector<std::pair<int, int>> items;

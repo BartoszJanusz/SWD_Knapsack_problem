@@ -29,22 +29,10 @@ double Timer::getTime(Resolution resolution)
 	elapsedMicroseconds.QuadPart *= 1000000;
 	elapsedMicroseconds.QuadPart /= frequency.QuadPart;
 
-	double retVal = (double)elapsedMicroseconds.QuadPart;
-	switch (resolution)
-	{
-		case MICROSECONDS:
-			break;
-		case MILISECONDS:
-			retVal /= 1000;
-			break;
-		case SECONDS:
-			retVal /= 1000000;
-			break;
-		default:
-			// Should not be here
-			retVal = nan("");
-			break;
-	}
+	return convertResolution(MICROSECONDS, resolution, static_cast<double>(elapsedMicroseconds.QuadPart));
+}
 
-	return retVal;
+double Timer::convertResolution(Resolution from, Resolution to, double time)
+{
+	return time * static_cast<double>(from / to);
 }

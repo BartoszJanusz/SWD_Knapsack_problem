@@ -1,18 +1,26 @@
-#include "DynamicProgrammingSolver.h"
+#include "DynamicProgrammingHashMapSolver.h"
 
-DynamicProgrammingSolver::DynamicProgrammingSolver() : Solver()
+DynamicProgrammingHashMapSolver::DynamicProgrammingHashMapSolver() : DynamicProgrammingSolver()
 {
-	calculateValueCalls = 0;
 }
 
-DynamicProgrammingSolver::DynamicProgrammingSolver(const Data& data) : Solver(data)
+DynamicProgrammingHashMapSolver::DynamicProgrammingHashMapSolver(const Data& data) : DynamicProgrammingSolver(data)
 {
-	calculateValueCalls = 0;
 }
 
-std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kSize)
+std::string DynamicProgrammingHashMapSolver::getName() const
+{
+	auto& ti = typeid(DynamicProgrammingSolver);
+	return ti.name();
+}
+
+std::pair<int, std::vector<int>> DynamicProgrammingHashMapSolver::calculateValue(int kSize)
 {
 	calculateValueCalls++;
+
+	auto element = previousValuesMap.find(kSize);
+	if (element != previousValuesMap.end())
+		return element->second;
 
 	std::vector<int> items_count;
 	int max_value = -1;
@@ -22,6 +30,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 	if (kSize == 0)
 	{
 		auto retVal = std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
+		previousValuesMap.insert(std::make_pair(kSize, retVal));
 #ifdef _DEBUG
 		Logger::getLogger().log("return kSize == 0", retVal);
 #endif // DEBUG
@@ -52,6 +61,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 		if (max_value == -1)
 		{
 			auto retVal = std::pair<int, std::vector<int>>(0, std::vector<int>(items.size(), 0));
+			previousValuesMap.insert(std::make_pair(kSize, retVal));
 #ifdef _DEBUG
 			std::stringstream ss;
 			ss << "return kSize == " << kSize;
@@ -63,6 +73,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 		items_count[max_index] += 1;
 
 		auto retVal = std::pair<int, std::vector<int>>(max_value, std::move(items_count));
+		previousValuesMap.insert(std::make_pair(kSize, retVal));
 #ifdef _DEBUG
 		std::stringstream ss;
 		ss << "return kSize == " << kSize;
@@ -70,21 +81,4 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 #endif // DEBUG
 		return retVal;
 	}
-}
-
-std::pair<int, std::vector<int>> DynamicProgrammingSolver::solve()
-{
-	calculateValueCalls = 0;
-	return calculateValue(knapsackSize);
-}
-
-unsigned DynamicProgrammingSolver::getCalculateValueCalls()
-{
-	return calculateValueCalls;
-}
-
-std::string DynamicProgrammingSolver::getName() const
-{
-	auto& ti = typeid(DynamicProgrammingSolver);
-	return ti.name();
 }
