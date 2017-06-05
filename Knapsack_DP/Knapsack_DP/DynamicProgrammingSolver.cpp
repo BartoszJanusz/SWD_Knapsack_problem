@@ -30,7 +30,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::calculateValue(int kS
 	else
 	{
 		// For every item check if it is the best-fit item (max gained value)
-		for (int i = 0; i < items.size(); ++i)
+		for (size_t i = 0; i < items.size(); ++i)
 		{
 			// If item fits in current knapsack
 			if (items[i].first <= kSize)

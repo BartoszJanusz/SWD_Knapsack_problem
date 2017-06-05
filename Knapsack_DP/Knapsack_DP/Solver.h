@@ -23,7 +23,7 @@ public:
 	Data getData() const;
 
 	// Setters
-	void setData(const Data& data);
+	virtual void setData(const Data& data);
 protected:
 	int knapsackSize;
 	std::vector<std::pair<int, int>> items;

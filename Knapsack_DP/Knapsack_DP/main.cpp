@@ -23,18 +23,18 @@ int main()
 	std::vector<Solver*> solvers;
 
 	solvers.push_back(&greedy);
-	solvers.push_back(&dynamic);
+	//solvers.push_back(&dynamic);
 	solvers.push_back(&dynamicHashMap);
 
 	TestParameters tp;
-	tp.knapsackSizes = { 80, 90, 100 };
+	tp.knapsackSizes = { 100000 };
 	tp.costRange = std::make_pair(25, 30);
 	tp.valueRange = std::make_pair(30, 60);
 	tp.itemsToGenerate = 30;
-	tp.repeats = 100;
+	tp.repeats = 10;
 	tp.solvers = std::move(solvers);
 
-	Tester::test(tp, true);
+	Tester::test(tp, false);
 
 #ifdef ENABLE
 	Data data;

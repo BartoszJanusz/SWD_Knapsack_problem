@@ -13,6 +13,12 @@ std::string DynamicProgrammingHashMapSolver::getName() const
 	return QUOTE(DynamicProgrammingHashMapSolver);
 }
 
+void DynamicProgrammingHashMapSolver::setData(const Data & data)
+{
+	Solver::setData(data);
+	previousValuesMap.clear();
+}
+
 std::pair<int, std::vector<int>> DynamicProgrammingHashMapSolver::calculateValue(int kSize)
 {
 	calculateValueCalls++;
@@ -38,7 +44,7 @@ std::pair<int, std::vector<int>> DynamicProgrammingHashMapSolver::calculateValue
 	else
 	{
 		// For every item check if it is the best-fit item (max gained value)
-		for (int i = 0; i < items.size(); ++i)
+		for (size_t i = 0; i < items.size(); ++i)
 		{
 			// If item fits in current knapsack
 			if (items[i].first <= kSize)

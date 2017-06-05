@@ -1,6 +1,7 @@
 #pragma once
 #include "DynamicProgrammingSolver.h"
 
+
 class DynamicProgrammingHashMapSolver :
 	public DynamicProgrammingSolver
 {
@@ -11,6 +12,9 @@ public:
 
 	// Getters
 	virtual std::string getName() const override;
+
+	// Setters
+	virtual void setData(const Data& data) override;
 private:
 	virtual std::pair<int, std::vector<int>> calculateValue(int kSize) override;
 
