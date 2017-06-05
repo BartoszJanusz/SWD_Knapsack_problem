@@ -89,7 +89,7 @@ void Tester::performNTests(Solver* solver, const std::vector<Data> &data, uint r
 		// Testing given number of times
 		Timer timer;
 
-		ofs << "# seconds | milliseconds | microseconds\n";
+		ofs << "# seconds | milliseconds | microseconds | nanoseconds\n";
 		for (decltype(repeats) i = 0; i < repeats; i++)
 		{
 			timer.start();
@@ -98,7 +98,8 @@ void Tester::performNTests(Solver* solver, const std::vector<Data> &data, uint r
 
 			ofs << timer.getTime(SECONDS) << " "
 				<< timer.getTime(MILLISECONDS) << " "
-				<< timer.getTime(MICROSECONDS) << "\n";
+				<< timer.getTime(MICROSECONDS) << " "
+				<< timer.getTime(NANOSECONDS) << "\n";
 		}
 
 		ofs.flush();
