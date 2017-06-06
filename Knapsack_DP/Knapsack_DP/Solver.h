@@ -24,6 +24,8 @@ public:
 
 	// Setters
 	virtual void setData(const Data& data);
+
+	virtual void clearHelperStructures() = 0;
 protected:
 	int knapsackSize;
 	std::vector<std::pair<int, int>> items;

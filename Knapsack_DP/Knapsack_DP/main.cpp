@@ -20,14 +20,14 @@ int main()
 	DynamicProgrammingSolver dynamic;
 	DynamicProgrammingHashMapSolver dynamicHashMap;
 
-	std::vector<Solver*> solvers;
+	std::set<SolverType> solvers;
 
-	solvers.push_back(&greedy);
-	//solvers.push_back(&dynamic);
-	solvers.push_back(&dynamicHashMap);
+	solvers.emplace(GREEDY);
+	//solvers.emplace(DYNAMIC);
+	solvers.emplace(DYNAMIC_HASHMAP);
 
 	TestParameters tp;
-	tp.knapsackSizes = { 100000 };
+	tp.knapsackSizes = { 10000 };
 	tp.costRange = std::make_pair(25, 30);
 	tp.valueRange = std::make_pair(30, 60);
 	tp.itemsToGenerate = 30;

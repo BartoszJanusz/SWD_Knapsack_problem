@@ -21,11 +21,12 @@ void Tester::test(const TestParameters& tp, bool parallel)
 		threads.reserve(tp.solvers.size());
 
 		// Creating and starting testing threads
-		for (size_t i = 0; i < tp.solvers.size(); i++)
+		size_t i = 0;
+		for (auto it = tp.solvers.begin(); it != tp.solvers.end(); i++, it++)
 		{
 			std::stringstream ss;
 			ss << i;
-			threads.emplace_back(performNTests, tp.solvers[i], data, tp.repeats, ss.str());
+			threads.emplace_back(performNTests, *it, data, tp.repeats, ss.str());
 		}
 
 		// Waiting for threads
@@ -36,11 +37,12 @@ void Tester::test(const TestParameters& tp, bool parallel)
 	}
 	else
 	{
-		for (size_t i = 0; i < tp.solvers.size(); i++)
+		size_t i = 0;
+		for (auto it = tp.solvers.begin(); it != tp.solvers.end(); i++, it++)
 		{
 			std::stringstream ss;
 			ss << i;
-			performNTests(tp.solvers[i], data, tp.repeats, ss.str());
+			performNTests(*it, data, tp.repeats, ss.str());
 		}
 	}
 }
@@ -59,7 +61,7 @@ std::string Tester::constructFileName(const Solver & solver, const std::string a
 	return ss.str();
 }
 
-void Tester::performNTests(Solver* solver, const std::vector<Data> &data, uint repeats, const std::string additionalInfo)
+void Tester::performNTests(SolverType solverType, const std::vector<Data> &data, uint repeats, const std::string additionalInfo)
 {
 	std::cout << additionalInfo << ": start" << std::endl;
 	for (size_t i = 0; i < data.size(); i++)
@@ -70,9 +72,8 @@ void Tester::performNTests(Solver* solver, const std::vector<Data> &data, uint r
 			std::cout << additionalInfo << ": " << percent << std::endl;
 		}
 		
-		// Setting new set of data
-		solver->setData(data[i]);
-
+		auto solver = SolverFactory::constructSolver(solverType, data[i]);
+		
 		// Constructing file name
 		auto fileName = constructFileName(*solver, additionalInfo);
 
@@ -96,13 +97,15 @@ void Tester::performNTests(Solver* solver, const std::vector<Data> &data, uint r
 			solver->solve();
 			timer.stop();
 
+			solver->clearHelperStructures();
+
 			ofs << timer.getTime(SECONDS) << " "
 				<< timer.getTime(MILLISECONDS) << " "
 				<< timer.getTime(MICROSECONDS) << " "
 				<< timer.getTime(NANOSECONDS) << "\n";
 		}
-
 		ofs.flush();
+		delete solver;
 	}
 	std::cout << additionalInfo << ": finish" << std::endl;
 }

@@ -1,14 +1,14 @@
 #pragma once
-#include "Solver.h"
-#include "Data.h"
+#include "SolverFactory.h"
+#include <set>
 
 class TestParameters
 {
 public:
-	TestParameters();
-	~TestParameters();
+	TestParameters() = default;
+	~TestParameters() = default;
 
-	std::vector<Solver*> solvers;
+	std::set<SolverType> solvers;
 	std::vector<int> knapsackSizes;
 	Range costRange;
 	Range valueRange;

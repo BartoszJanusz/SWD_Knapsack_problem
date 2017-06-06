@@ -78,6 +78,11 @@ std::pair<int, std::vector<int>> DynamicProgrammingSolver::solve()
 	return calculateValue(knapsackSize);
 }
 
+void DynamicProgrammingSolver::clearHelperStructures()
+{
+	// Nothing to do
+}
+
 unsigned DynamicProgrammingSolver::getCalculateValueCalls()
 {
 	return calculateValueCalls;

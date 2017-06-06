@@ -15,6 +15,8 @@ public:
 
 	// Setters
 	virtual void setData(const Data& data) override;
+
+	virtual void clearHelperStructures() override;
 private:
 	virtual std::pair<int, std::vector<int>> calculateValue(int kSize) override;
 

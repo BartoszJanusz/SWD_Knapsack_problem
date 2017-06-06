@@ -9,6 +9,9 @@ public:
 	virtual ~GreedyAlgorithmSolver() = default;
 
 	virtual std::pair<int, std::vector<int>> solve() override;
+	
+	virtual void clearHelperStructures() override;
+
 	virtual std::string getName() const override;
 };
 

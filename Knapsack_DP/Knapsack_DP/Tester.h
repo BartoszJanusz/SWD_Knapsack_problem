@@ -16,7 +16,7 @@ public:
 	static void test(const TestParameters& tp, bool parallel = true);
 
 private:
-	static void performNTests(Solver* solver, const std::vector<Data> &data, uint repeats, const std::string additionalInfo);
+	static void performNTests(SolverType solverType, const std::vector<Data> &data, uint repeats, const std::string additionalInfo);
 	static std::string constructFileName(const Solver& solver, const std::string additionalInfo);
 };
 

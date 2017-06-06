@@ -19,6 +19,19 @@ void DynamicProgrammingHashMapSolver::setData(const Data & data)
 	previousValuesMap.clear();
 }
 
+void DynamicProgrammingHashMapSolver::clearHelperStructures()
+{
+#ifdef _DEBUG
+	auto size = previousValuesMap.size();
+	auto maxSize = previousValuesMap.max_size();
+#endif
+	previousValuesMap.clear();
+#ifdef _DEBUG
+	size = previousValuesMap.size();
+	maxSize = previousValuesMap.max_size();
+#endif
+}
+
 std::pair<int, std::vector<int>> DynamicProgrammingHashMapSolver::calculateValue(int kSize)
 {
 	calculateValueCalls++;

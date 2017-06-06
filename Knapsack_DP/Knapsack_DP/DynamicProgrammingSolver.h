@@ -21,6 +21,7 @@ public:
 
 	virtual std::pair<int, std::vector<int>> solve() override;
 
+	virtual void clearHelperStructures() override;
 protected:
 	virtual std::pair<int, std::vector<int>> calculateValue(int kSize);
 

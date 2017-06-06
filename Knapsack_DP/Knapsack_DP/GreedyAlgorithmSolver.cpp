@@ -3,12 +3,12 @@
 
 GreedyAlgorithmSolver::GreedyAlgorithmSolver() : Solver()
 {
-
+	// Nothing to do
 }
 
 GreedyAlgorithmSolver::GreedyAlgorithmSolver(const Data &data) : Solver(data)
 {
-
+	// Nothing to do
 }
 
 std::pair<int, std::vector<int>> GreedyAlgorithmSolver::solve()
@@ -46,6 +46,11 @@ std::pair<int, std::vector<int>> GreedyAlgorithmSolver::solve()
 	} while (itemChosen);
 
 	return retVal;
+}
+
+void GreedyAlgorithmSolver::clearHelperStructures()
+{
+	// Nothing to do
 }
 
 std::string GreedyAlgorithmSolver::getName() const
