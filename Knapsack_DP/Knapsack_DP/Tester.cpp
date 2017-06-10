@@ -72,11 +72,11 @@ void Tester::performNTests(SolverType solverType, const std::vector<Data> &data,
 			std::cout << additionalInfo << ": " << percent << std::endl;
 		}
 		
-		auto solver = SolverFactory::constructSolver(solverType, data[i]);
-		
+		auto slv = SolverFactory::constructSolver(solverType, data[i]);
+		std::unique_ptr<Solver> up(slv);
 		// Constructing file name
-		auto fileName = constructFileName(*solver, additionalInfo);
-
+		auto fileName = constructFileName(*slv, additionalInfo);
+		
 		// Opening file
 		std::ofstream ofs(fileName, std::ios_base::out | std::ios_base::trunc);
 
@@ -91,13 +91,13 @@ void Tester::performNTests(SolverType solverType, const std::vector<Data> &data,
 		Timer timer;
 
 		ofs << "# seconds | milliseconds | microseconds | nanoseconds\n";
-		for (decltype(repeats) i = 0; i < repeats; i++)
+		for (decltype(repeats) j = 0; j < repeats; j++)
 		{
+			auto solver = SolverFactory::constructSolver(solverType, data[i]);
 			timer.start();
 			solver->solve();
 			timer.stop();
-
-			solver->clearHelperStructures();
+			delete solver;
 
 			ofs << timer.getTime(SECONDS) << " "
 				<< timer.getTime(MILLISECONDS) << " "
@@ -105,7 +105,6 @@ void Tester::performNTests(SolverType solverType, const std::vector<Data> &data,
 				<< timer.getTime(NANOSECONDS) << "\n";
 		}
 		ofs.flush();
-		delete solver;
 	}
 	std::cout << additionalInfo << ": finish" << std::endl;
 }
