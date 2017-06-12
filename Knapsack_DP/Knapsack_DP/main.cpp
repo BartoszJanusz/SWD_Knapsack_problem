@@ -9,6 +9,7 @@
 #include "Tester.h"
 
 //#define TESTS
+#define TEST_CORRECTNESS
 
 using std::string;
 using std::cout;
@@ -16,27 +17,31 @@ using std::endl;
 
 int main()
 {
-#ifdef TESTS
+#if defined(TESTS) || defined(TEST_CORRECTNESS)
 	GreedyAlgorithmSolver greedy;
 	DynamicProgrammingSolver dynamic;
 	DynamicProgrammingHashMapSolver dynamicHashMap;
 
 	std::set<SolverType> solvers;
 
-	solvers.emplace(GREEDY);
-	//solvers.emplace(DYNAMIC);
+	//solvers.emplace(GREEDY);
+	solvers.emplace(DYNAMIC);
 	solvers.emplace(DYNAMIC_HASHMAP);
 
 	TestParameters tp;
-	tp.knapsackSizes = { 10000 };
+	tp.knapsackSizes = { 100 , 110, 120 };
 	tp.costRange = std::make_pair(25, 30);
 	tp.valueRange = std::make_pair(30, 60);
 	tp.itemsToGenerate = 30;
 	tp.repeats = 10;
 	tp.solvers = std::move(solvers);
 
+#ifdef TEST
 	Tester::test(tp, false);
-
+#else TEST_CORRECTNESS
+	Tester::testCorrectness(tp);
+#endif
+	
 #else
 	Data data;
 	//data.readFromFile("data.txt");

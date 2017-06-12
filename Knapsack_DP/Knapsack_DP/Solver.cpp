@@ -48,7 +48,7 @@ void Solver::setData(const Data & data)
 	this->items = data.getItems();
 }
 
-bool Solver::compareResults(std::pair<int, std::vector<int>> lhs, std::pair<int, std::vector<int>> rhs)
+bool Solver::compareResults(const std::pair<int, std::vector<int>> &lhs, const std::pair<int, std::vector<int>> &rhs)
 {
 	bool retVal = false;
 	auto& lhsValue = lhs.first;
@@ -65,4 +65,22 @@ bool Solver::compareResults(std::pair<int, std::vector<int>> lhs, std::pair<int,
 	}
 
 	return retVal;
+}
+
+bool Solver::compareResults(const std::vector<std::pair<int, std::vector<int>>> &results)
+{
+	if (results.size() <= 1)
+		return true;
+	
+	for (size_t i = 0; i < results.size() - 1; i++)
+	{
+		for (size_t j = i + 1; j < results.size(); j++)
+		{
+			auto retVal = compareResults(results[i], results[j]);
+			if (!retVal)
+				return false;
+		}
+	}
+
+	return true;
 }

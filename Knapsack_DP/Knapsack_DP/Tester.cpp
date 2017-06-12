@@ -47,6 +47,19 @@ void Tester::test(const TestParameters& tp, bool parallel)
 	}
 }
 
+void Tester::testCorrectness(const TestParameters & tp)
+{
+	// Generating data for tests
+	std::vector<Data> data(tp.knapsackSizes.size());
+	for (size_t i = 0; i < tp.knapsackSizes.size(); i++)
+	{
+		data[i].generateItems(tp.costRange, tp.valueRange, tp.itemsToGenerate);
+		data[i].setKnapsackSize(tp.knapsackSizes[i]);
+	}
+
+	performCorectnessTest(tp.solvers, data);
+}
+
 std::string Tester::constructFileName(const Solver & solver, const std::string additionalInfo)
 {
 	// Building file name
@@ -104,6 +117,77 @@ void Tester::performNTests(SolverType solverType, const std::vector<Data> &data,
 				<< timer.getTime(MICROSECONDS) << " "
 				<< timer.getTime(NANOSECONDS) << "\n";
 		}
+		ofs.flush();
+	}
+	std::cout << additionalInfo << ": finish" << std::endl;
+}
+
+void Tester::performCorectnessTest(const std::set<SolverType> &solverTypes, const std::vector<Data>& data, const std::string additionalInfo)
+{
+	std::cout << additionalInfo << ": start" << std::endl;
+
+	// Constructing file name
+	std::stringstream ss;
+	ss << "results_correctness";
+	if (!additionalInfo.empty())
+		ss << "_" << additionalInfo;
+	ss << ".txt";
+
+	auto fileName = ss.str();
+
+	// Opening file
+	std::ofstream ofs(fileName, std::ios_base::out | std::ios_base::trunc);
+
+	// Returning if error in opening occurs
+	if (!ofs.good())
+	{
+		std::cerr << "Couldn't open file: " << fileName << std::endl;
+		return;
+	}
+
+	size_t j = 0;
+	std::vector<SolverType> st(solverTypes.begin(), solverTypes.end());
+	for (; st.size() && j < st.size() - 1; j++)
+	{
+		auto tmpSlv = SolverFactory::constructSolver(st[j]);
+		ofs << tmpSlv->getName() << "(value | cost) | ";
+		delete tmpSlv;
+	}
+
+	auto tmpSlv = SolverFactory::constructSolver(st[j]);
+	ofs << tmpSlv->getName() << "(value | cost) | equal\n";
+	delete tmpSlv;
+
+	for (size_t i = 0; i < data.size(); i++)
+	{
+		auto percent = (i * 100 / data.size());
+		if ((percent % 10) == 0)
+		{
+			std::cout << additionalInfo << ": " << percent << std::endl;
+		}
+
+		std::vector<std::unique_ptr<Solver>> solvers;
+
+		for (auto& st : solverTypes)
+		{
+			auto slv = SolverFactory::constructSolver(st, data[i]);
+			solvers.emplace_back(slv);
+		}
+
+		std::vector<std::pair<int, std::vector<int>>> results;
+
+		// Testing correctness
+		for (auto& solver : solvers)
+		{
+			auto result = solver->solve();
+			results.push_back(result);
+
+			ofs << result.first << " "
+				<< solver->getItemsWeight(result) << " ";
+		}
+
+		ofs << static_cast<int>(Solver::compareResults(results)) << "\n";
+
 		ofs.flush();
 	}
 	std::cout << additionalInfo << ": finish" << std::endl;

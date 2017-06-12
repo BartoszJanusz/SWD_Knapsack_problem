@@ -27,7 +27,8 @@ public:
 
 	virtual void clearHelperStructures() = 0;
 
-	static bool compareResults(std::pair<int, std::vector<int>> lhs, std::pair<int, std::vector<int>> rhs);
+	static bool compareResults(const std::pair<int, std::vector<int>> &lhs, const std::pair<int, std::vector<int>> &rhs);
+	static bool compareResults(const std::vector<std::pair<int, std::vector<int>>> &results);
 protected:
 	int knapsackSize;
 	std::vector<std::pair<int, int>> items;
