@@ -47,3 +47,22 @@ void Solver::setData(const Data & data)
 	this->knapsackSize = data.getKnapsackSize();
 	this->items = data.getItems();
 }
+
+bool Solver::compareResults(std::pair<int, std::vector<int>> lhs, std::pair<int, std::vector<int>> rhs)
+{
+	bool retVal = false;
+	auto& lhsValue = lhs.first;
+	auto& lhsKnapsack = lhs.second;
+	auto& rhsValue = rhs.first;
+	auto& rhsKnapsack = rhs.second;
+
+	if (lhsValue == rhsValue)
+	{
+		if (lhsKnapsack == rhsKnapsack)
+		{
+			retVal = true;
+		}
+	}
+
+	return retVal;
+}

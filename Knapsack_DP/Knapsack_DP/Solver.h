@@ -26,6 +26,8 @@ public:
 	virtual void setData(const Data& data);
 
 	virtual void clearHelperStructures() = 0;
+
+	static bool compareResults(std::pair<int, std::vector<int>> lhs, std::pair<int, std::vector<int>> rhs);
 protected:
 	int knapsackSize;
 	std::vector<std::pair<int, int>> items;
